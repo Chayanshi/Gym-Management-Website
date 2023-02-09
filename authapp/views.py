@@ -151,24 +151,3 @@ def attendance(request):
     return render(request,"attendance.html",context)
 
 
-def send(request):
-     if not request.user.is_authenticated:
-        messages.warning(request,"Please Login and Try Again")
-        return redirect('/login')
-    
-
-     if models.Enrollment.paymentStatus is not None:
-         # Get the currently logged-in user's email address
-         to_email = request.signin.email
-         subject = 'Payment Verification'
-         message = 'Your payment has been verified.', models.Enrollment.paymentStatus,models.Enrollment.price 
-         from_email = 'noreply@example.com'
-
-    # Use the send_mail function to send the email
-         send_mail(subject, message, from_email, [to_email])
-         email.send()
-         messages.success(request,"mail sended")
-         return redirect('/profile')
-     else:
-          messages.error(request,"enrollment form not fill")
-          return redirect('/enroll')
